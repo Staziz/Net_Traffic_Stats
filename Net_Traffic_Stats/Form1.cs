@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Net_Traffic_Stats
 {
@@ -15,6 +7,27 @@ namespace Net_Traffic_Stats
 		public Form1()
 		{
 			InitializeComponent();
+		}
+
+		private void selectButton_Click(object sender, System.EventArgs e)
+		{
+			DataGridViewRow selectedRow = null;
+			if (adapterGrid.SelectedRows.Count != 0)
+			{
+				selectedRow = adapterGrid.SelectedRows[0];
+			}
+			else
+			{
+				if (adapterGrid.SelectedCells.Count != 0)
+				{
+					var selectedCell = adapterGrid.SelectedCells[0];
+					selectedRow = adapterGrid.Rows[selectedCell.RowIndex];
+				}
+			}
+			if (selectedRow != null)
+			{
+				Properties.Settings.Default.SelectedAdapterID
+			}
 		}
 	}
 }
