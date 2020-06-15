@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Net_Traffic_Stats
@@ -16,7 +13,11 @@ namespace Net_Traffic_Stats
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
+			if (Properties.Settings.Default.SelectedAdapterID == "empty")
+			{
+				Application.Run(new Form1());
+			}
+			Application.Run();
 		}
 	}
 }

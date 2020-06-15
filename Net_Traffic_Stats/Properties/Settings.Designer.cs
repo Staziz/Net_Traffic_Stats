@@ -23,12 +23,15 @@ namespace Net_Traffic_Stats.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("empty")]
         public string SelectedAdapterID {
             get {
                 return ((string)(this["SelectedAdapterID"]));
+            }
+            set {
+                this["SelectedAdapterID"] = value;
             }
         }
     }
