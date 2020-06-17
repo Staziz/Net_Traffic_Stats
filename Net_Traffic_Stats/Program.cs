@@ -5,6 +5,7 @@ namespace Net_Traffic_Stats
 {
 	static class Program
 	{
+		internal static bool exitFlag = false;
 		/// <summary>
 		/// Главная точка входа для приложения.
 		/// </summary>

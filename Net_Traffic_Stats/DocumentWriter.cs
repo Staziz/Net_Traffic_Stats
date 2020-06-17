@@ -16,22 +16,42 @@ namespace Net_Traffic_Stats
 			File.AppendAllLines(path, data.ToArray());
 		}
 
+		internal static void WriteTCPStatistics(string data)
+		{
+			WriteTCPStatistics(new List<string>(new string[] { data }));
+		}
+
 		internal static void WriteIPStatistics(List<string> data)
 		{
 			var path = GetStatisticsFilePath(StatistiscType.IP);
 			File.AppendAllLines(path, data.ToArray());
 		}
 
+		internal static void WriteIPStatistics(string data)
+		{
+			WriteIPStatistics(new List<string>(new string[] { data }));
+		}
+
 		internal static void WriteICMPStatistics(List<string> data)
 		{
-			var path = GetStatisticsFilePath(StatistiscType.IP);
+			var path = GetStatisticsFilePath(StatistiscType.ICMP);
 			File.AppendAllLines(path, data.ToArray());
+		}
+
+		internal static void WriteICMPStatistics(string data)
+		{
+			WriteICMPStatistics(new List<string>(new string[] { data }));
 		}
 
 		internal static void WriteUDPStatistics(List<string> data)
 		{
-			var path = GetStatisticsFilePath(StatistiscType.IP);
+			var path = GetStatisticsFilePath(StatistiscType.UDP);
 			File.AppendAllLines(path, data.ToArray());
+		}
+
+		internal static void WriteUDPStatistics(string data)
+		{
+			WriteUDPStatistics(new List<string>(new string[] { data }));
 		}
 
 		internal static string GetStatisticsFilePath(StatistiscType type)
