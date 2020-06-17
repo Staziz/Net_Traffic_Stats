@@ -7,56 +7,43 @@ using System.Threading.Tasks;
 
 namespace Net_Traffic_Stats
 {
-	static class StatisticsCollector
+	internal static class StatisticsCollector
 	{
-		public static void ShowTcpStatistics(NetworkInterfaceComponent version)
+		internal static void GetTcpStatistics(NetworkInterfaceComponent version)
 		{
 			IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
 			TcpStatistics tcpstat = null;
-			Console.WriteLine("");
+			string result = "";
 			switch (version)
 			{
 				case NetworkInterfaceComponent.IPv4:
 					tcpstat = properties.GetTcpIPv4Statistics();
-					Console.WriteLine("TCP/IPv4 Statistics:");
+					result += "TCP/IPv4 Statistics:\n";
 					break;
 				case NetworkInterfaceComponent.IPv6:
 					tcpstat = properties.GetTcpIPv6Statistics();
-					Console.WriteLine("TCP/IPv6 Statistics:");
+					result += "TCP/IPv6 Statistics:\n";
 					break;
 				default:
 					throw new ArgumentException("version");
-					//    break;
 			}
-			Console.WriteLine("  Minimum Transmission Timeout............. : {0}",
-				tcpstat.MinimumTransmissionTimeout);
-			Console.WriteLine("  Maximum Transmission Timeout............. : {0}",
-				tcpstat.MaximumTransmissionTimeout);
+			result += $"\tMinimum Transmission Timeout: {tcpstat.MinimumTransmissionTimeout}";
+			result += $"\tMaximum Transmission Timeout: {tcpstat.MaximumTransmissionTimeout}";
+			
+			result += "\tConnection Data:";
+			result += $"\t\tCurrent: {tcpstat.CurrentConnections}";
+			result += $"\t\tCumulative: {tcpstat.CumulativeConnections}";
+			result += $"\t\tInitiated: {tcpstat.ConnectionsInitiated}";
+			result += $"\t\tAccepted: {tcpstat.ConnectionsAccepted}";
+			result += $"\t\tFailed Attempts: {tcpstat.FailedConnectionAttempts}";
+			result += $"\t\tReset: {tcpstat.ResetConnections}";
 
-			Console.WriteLine("  Connection Data:");
-			Console.WriteLine("      Current  ............................ : {0}",
-			tcpstat.CurrentConnections);
-			Console.WriteLine("      Cumulative .......................... : {0}",
-				tcpstat.CumulativeConnections);
-			Console.WriteLine("      Initiated ........................... : {0}",
-				tcpstat.ConnectionsInitiated);
-			Console.WriteLine("      Accepted ............................ : {0}",
-				tcpstat.ConnectionsAccepted);
-			Console.WriteLine("      Failed Attempts ..................... : {0}",
-				tcpstat.FailedConnectionAttempts);
-			Console.WriteLine("      Reset ............................... : {0}",
-				tcpstat.ResetConnections);
+			result += $"\tSegment Data:";
+			result += $"\t\tReceived: {tcpstat.SegmentsReceived}";
+			result += $"\t\tSent: {tcpstat.SegmentsSent}";
+			result += $"\t\tRetransmitted: {tcpstat.SegmentsResent}";
 
-			Console.WriteLine("");
-			Console.WriteLine("  Segment Data:");
-			Console.WriteLine("      Received  ........................... : {0}",
-				tcpstat.SegmentsReceived);
-			Console.WriteLine("      Sent ................................ : {0}",
-				tcpstat.SegmentsSent);
-			Console.WriteLine("      Retransmitted ....................... : {0}",
-				tcpstat.SegmentsResent);
-
-			Console.WriteLine("");
+			result += "";
 		}
 	}
 }
