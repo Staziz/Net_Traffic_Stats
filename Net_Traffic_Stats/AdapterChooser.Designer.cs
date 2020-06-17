@@ -1,6 +1,6 @@
 ﻿namespace Net_Traffic_Stats
 {
-	partial class Form1
+	partial class AdapterChooser
 	{
 		/// <summary>
 		/// Обязательная переменная конструктора.
@@ -123,16 +123,15 @@
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 450);
 			this.tableLayoutPanel1.TabIndex = 2;
 			// 
-			// Form1
+			// AdapterChooser
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Controls.Add(this.tableLayoutPanel1);
-			this.Name = "Form1";
-			this.Text = "Form1";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-			this.Load += new System.EventHandler(this.Form1_Load);
+			this.Name = "AdapterChooser";
+			this.Text = "AdapterChooser";
+			this.Load += new System.EventHandler(this.AdapterChooser_Load);
 			((System.ComponentModel.ISupportInitialize)(this.adapterGrid)).EndInit();
 			this.tableLayoutPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);

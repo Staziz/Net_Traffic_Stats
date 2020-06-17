@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,41 +10,75 @@ namespace Net_Traffic_Stats
 {
 	internal static class StatisticsCollector
 	{
-		internal static void GetTcpStatistics(NetworkInterfaceComponent version)
+		internal static List<string> GetIPIntefaceStatistics()
 		{
-			IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
-			TcpStatistics tcpstat = null;
-			string result = "";
-			switch (version)
+			NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+			NetworkInterface @interface = interfaces.FirstOrDefault(i => i.Id == Properties.Settings.Default.SelectedAdapterID);
+			IPInterfaceStatistics ipStat = null;
+			List<string> result = new List<string>();
+			ipStat = @interface.GetIPStatistics();
+
+			var props = ipStat.GetType().GetProperties();
+			foreach (var property in props)
 			{
-				case NetworkInterfaceComponent.IPv4:
-					tcpstat = properties.GetTcpIPv4Statistics();
-					result += "TCP/IPv4 Statistics:\n";
+				result.Add($"\t{property.Name}: {property.GetValue(ipStat)}");
+			}
+			return result;
+		}
+
+		internal static List<string> GetTCPStatistics()
+		{
+			return GetStatistics(StatistiscType.TCP);
+		}
+
+		internal static List<string> GetIPStatistics()
+		{
+			return GetStatistics(StatistiscType.IP);
+		}
+
+		internal static List<string> GetICMPStatistics()
+		{
+			return GetStatistics(StatistiscType.ICMP);
+		}
+
+		internal static List<string> GetUDPStatistics()
+		{
+			return GetStatistics(StatistiscType.UDP);
+		}
+
+		internal static List<string> GetStatistics(StatistiscType type)
+		{
+			object stat = null;
+			PropertyInfo[] properties = null;
+			IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+			List<string> result = new List<string>();
+			switch (type)
+			{
+				case StatistiscType.TCP:
+					stat = ipProperties.GetTcpIPv4Statistics();
+					properties = typeof(TcpStatistics).GetProperties();
 					break;
-				case NetworkInterfaceComponent.IPv6:
-					tcpstat = properties.GetTcpIPv6Statistics();
-					result += "TCP/IPv6 Statistics:\n";
+				case StatistiscType.IP:
+					stat = ipProperties.GetIPv4GlobalStatistics();
+					properties = typeof(IPGlobalStatistics).GetProperties();
+					break;
+				case StatistiscType.ICMP:
+					stat = ipProperties.GetIcmpV4Statistics();
+					properties = typeof(IcmpV4Statistics).GetProperties();
+					break;
+				case StatistiscType.UDP:
+					stat = ipProperties.GetUdpIPv4Statistics();
+					properties = typeof(UdpStatistics).GetProperties();
 					break;
 				default:
-					throw new ArgumentException("version");
+					return null;
 			}
-			result += $"\tMinimum Transmission Timeout: {tcpstat.MinimumTransmissionTimeout}";
-			result += $"\tMaximum Transmission Timeout: {tcpstat.MaximumTransmissionTimeout}";
-			
-			result += "\tConnection Data:";
-			result += $"\t\tCurrent: {tcpstat.CurrentConnections}";
-			result += $"\t\tCumulative: {tcpstat.CumulativeConnections}";
-			result += $"\t\tInitiated: {tcpstat.ConnectionsInitiated}";
-			result += $"\t\tAccepted: {tcpstat.ConnectionsAccepted}";
-			result += $"\t\tFailed Attempts: {tcpstat.FailedConnectionAttempts}";
-			result += $"\t\tReset: {tcpstat.ResetConnections}";
+			foreach (var property in properties)
+			{
+				result.Add($"\t{property.Name}: {property.GetValue(stat)}");
+			}
 
-			result += $"\tSegment Data:";
-			result += $"\t\tReceived: {tcpstat.SegmentsReceived}";
-			result += $"\t\tSent: {tcpstat.SegmentsSent}";
-			result += $"\t\tRetransmitted: {tcpstat.SegmentsResent}";
-
-			result += "";
+			return result;
 		}
 	}
 }

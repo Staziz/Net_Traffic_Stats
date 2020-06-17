@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace Net_Traffic_Stats
 {
-	public partial class Form1 : Form
+	public partial class AdapterChooser : Form
 	{
-		public Form1()
+		public AdapterChooser()
 		{
 			InitializeComponent();
 		}
@@ -32,17 +32,7 @@ namespace Net_Traffic_Stats
 			}
 		}
 
-		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (e.CloseReason != CloseReason.UserClosing)
-			{
-				return;
-			}
-			e.Cancel = true;
-			(sender as Form).Hide();
-		}
-
-		private void Form1_Load(object sender, System.EventArgs e)
+		private void AdapterChooser_Load(object sender, System.EventArgs e)
 		{
 			NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
 			foreach (NetworkInterface adapter in interfaces)

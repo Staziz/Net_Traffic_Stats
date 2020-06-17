@@ -13,11 +13,7 @@ namespace Net_Traffic_Stats
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			if (Properties.Settings.Default.SelectedAdapterID == "empty")
-			{
-				Application.Run(new Form1());
-			}
-			Application.Run();
+			Application.Run(new CustomApplicationContext());
 		}
 	}
 }
