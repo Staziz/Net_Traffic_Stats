@@ -73,8 +73,7 @@ namespace Net_Traffic_Stats
 
 		internal static string GetStatisticsFilePath(StatistiscType type)
 		{
-			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Statistics for Stas");
-			EnsurePathExists(path);
+			string path = GetRootPath();
 			switch (type)
 			{
 				case StatistiscType.TCP:
@@ -92,12 +91,43 @@ namespace Net_Traffic_Stats
 			}
 		}
 
-		internal static void EnsurePathExists(string path)
+		internal static string GetRootPath()
 		{
-			if (!Directory.Exists(path))
+			string preferredPath = Path.GetFullPath(@"\\CORP\internal\common\4Klesarev_s\Statistics");
+			string reservePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Statistics for Stas");
+			string path = "";
+
+			if(!Directory.Exists(preferredPath))
 			{
-				Directory.CreateDirectory(path);
+				if (!Directory.Exists(reservePath))
+				{
+					Directory.CreateDirectory(reservePath);
+					path = reservePath;
+				}
 			}
+			else
+			{
+				if(Properties.Settings.Default.UserRandomName != "empty" && Directory.Exists(Path.Combine(preferredPath, Properties.Settings.Default.UserRandomName)))
+				{
+					path = Path.Combine(preferredPath, Properties.Settings.Default.UserRandomName);
+				}
+				else
+				{
+					string randomName = Path.GetRandomFileName();
+					string tempPath = Path.Combine(preferredPath, randomName);
+					while(Directory.Exists(tempPath))
+					{
+						randomName = Path.GetRandomFileName();
+						tempPath = Path.Combine(preferredPath, randomName);
+					}
+					Directory.CreateDirectory(tempPath);
+					path = tempPath;
+					Properties.Settings.Default.UserRandomName = randomName;
+					Properties.Settings.Default.Save();
+				}
+			}
+
+			return path;
 		}
 	}
 }

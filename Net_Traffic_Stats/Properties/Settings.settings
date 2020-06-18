@@ -5,5 +5,8 @@
     <Setting Name="SelectedAdapterID" Type="System.String" Scope="User">
       <Value Profile="(Default)">empty</Value>
     </Setting>
+    <Setting Name="UserRandomName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">empty</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
