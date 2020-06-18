@@ -54,6 +54,23 @@ namespace Net_Traffic_Stats
 			WriteUDPStatistics(new List<string>(new string[] { data }));
 		}
 
+		internal static void WriteIPInterfaceStatistics(List<string> data)
+		{
+			var path = GetStatisticsFilePath(StatistiscType.IPInterface);
+			File.AppendAllLines(path, data.ToArray());
+		}
+
+		internal static void WriteIPInterfaceStatistics(string data)
+		{
+			WriteIPInterfaceStatistics(new List<string>(new string[] { data }));
+		}
+
+		internal static void WriteProperties(List<string> data)
+		{
+			var path = GetStatisticsFilePath(StatistiscType.undef);
+			File.AppendAllLines(path, data.ToArray());
+		}
+
 		internal static string GetStatisticsFilePath(StatistiscType type)
 		{
 			var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Statistics for Stas");
@@ -68,8 +85,10 @@ namespace Net_Traffic_Stats
 					return Path.Combine(path, Properties.Resources.ICMPStatFileName);
 				case StatistiscType.UDP:
 					return Path.Combine(path, Properties.Resources.UDPStatFileName);
+				case StatistiscType.IPInterface:
+					return Path.Combine(path, Properties.Resources.IPInterfaceStatFileName);
 				default:
-					return Path.Combine(path, Properties.Resources.statisticsFileName);
+					return Path.Combine(path, Properties.Resources.propertiesFileName);
 			}
 		}
 

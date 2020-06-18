@@ -5,6 +5,8 @@
 		TCP,
 		IP,
 		ICMP,
-		UDP
+		UDP,
+		IPInterface,
+		undef
 	}
 }

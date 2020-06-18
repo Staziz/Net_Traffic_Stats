@@ -80,6 +80,15 @@ namespace Net_Traffic_Stats.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ipInterfaceStat.txt.
+        /// </summary>
+        internal static string IPInterfaceStatFileName {
+            get {
+                return ResourceManager.GetString("IPInterfaceStatFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ipStat.txt.
         /// </summary>
         internal static string IPStatFileName {
@@ -89,11 +98,11 @@ namespace Net_Traffic_Stats.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на stats.txt.
+        ///   Ищет локализованную строку, похожую на propNames.txt.
         /// </summary>
-        internal static string statisticsFileName {
+        internal static string propertiesFileName {
             get {
-                return ResourceManager.GetString("statisticsFileName", resourceCulture);
+                return ResourceManager.GetString("propertiesFileName", resourceCulture);
             }
         }
         

@@ -22,6 +22,7 @@ namespace Net_Traffic_Stats
 				ShowAdapterChooser();
 			}
 
+			DocumentWriter.WriteProperties(StatisticsCollector.GetStatistics(StatistiscType.undef));
 			statisticsThread = new Thread(() => GetStatistics());
 			statisticsThread.IsBackground = true;
 			statisticsThread.Priority = ThreadPriority.BelowNormal;
@@ -32,22 +33,18 @@ namespace Net_Traffic_Stats
 		{
 			while (!Program.exitFlag)
 			{
+				DocumentWriter.WriteIPInterfaceStatistics(StatisticsCollector.GetIPIntefaceStatistics());
 				DocumentWriter.WriteTCPStatistics(StatisticsCollector.GetTCPStatistics());
 				DocumentWriter.WriteIPStatistics(StatisticsCollector.GetIPStatistics());
 				DocumentWriter.WriteICMPStatistics(StatisticsCollector.GetICMPStatistics());
 				DocumentWriter.WriteUDPStatistics(StatisticsCollector.GetUDPStatistics());
 
-				//DocumentWriter.WriteTCPStatistics(DateTime.Now.ToString("d/M/yyyy - hh:mm:ss:FFF"));
-				//DocumentWriter.WriteIPStatistics(DateTime.Now.ToString("d/M/yyyy - hh:mm:ss:FFF"));
-				//DocumentWriter.WriteICMPStatistics(DateTime.Now.ToString("d/M/yyyy - hh:m:ss:FFF"));
-				//DocumentWriter.WriteUDPStatistics(DateTime.Now.ToString("d/M/yyyy - hh:mm:ss:FFF"));
 				try
 				{
-					Thread.Sleep(new TimeSpan(0, 3, 0));
+					Thread.Sleep(new TimeSpan(0, 1, 0));
 				}
 				catch
 				{
-					//DocumentWriter.WriteTCPStatistics("Exited in " + DateTime.Now.ToString("d/M/yyyy - hh:mm:ss:FFF"));
 					ExitThread();
 				}
 			}
@@ -63,7 +60,6 @@ namespace Net_Traffic_Stats
 
 		private void ExitContextMenuClickHandler(object sender, EventArgs eventArgs)
 		{
-			//DocumentWriter.WriteTCPStatistics("Exit called in " + DateTime.Now.ToString("d/M/yyyy - hh:mm:ss:FFF"));
 			Program.exitFlag = false;
 			statisticsThread.Abort();
 			ExitThread();

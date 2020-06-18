@@ -127,13 +127,16 @@
   <data name="IPStatFileName" xml:space="preserve">
     <value>ipStat.txt</value>
   </data>
-  <data name="statisticsFileName" xml:space="preserve">
-    <value>stats.txt</value>
-  </data>
   <data name="TCPStatFileName" xml:space="preserve">
     <value>tcpStat.txt</value>
   </data>
   <data name="UDPStatFileName" xml:space="preserve">
     <value>udpStat.txt</value>
+  </data>
+  <data name="IPInterfaceStatFileName" xml:space="preserve">
+    <value>ipInterfaceStat.txt</value>
+  </data>
+  <data name="propertiesFileName" xml:space="preserve">
+    <value>propNames.txt</value>
   </data>
 </root>

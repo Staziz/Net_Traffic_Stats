@@ -16,12 +16,19 @@ namespace Net_Traffic_Stats
 			NetworkInterface @interface = interfaces.FirstOrDefault(i => i.Id == Properties.Settings.Default.SelectedAdapterID);
 			IPInterfaceStatistics ipStat = null;
 			List<string> result = new List<string>();
-			ipStat = @interface.GetIPStatistics();
-
-			var props = ipStat.GetType().GetProperties();
-			foreach (var property in props)
+			if (@interface != null)
 			{
-				result.Add($"\t{property.Name}: {property.GetValue(ipStat)}");
+				string temp = $"{DateTime.Now.ToString("d/M/yyyy-hh:mm:ss:FFF")};";
+
+				ipStat = @interface.GetIPStatistics();
+				var props = ipStat.GetType().GetProperties();
+
+				foreach (var property in props)
+				{
+					temp += $"{property.GetValue(ipStat)};";
+				}
+
+				result.Add(temp);
 			}
 			return result;
 		}
@@ -71,12 +78,67 @@ namespace Net_Traffic_Stats
 					properties = typeof(UdpStatistics).GetProperties();
 					break;
 				default:
-					return null;
+					return GetPropertyNames();
 			}
+
+			string temp = $"{DateTime.Now.ToString("d/M/yyyy-hh:mm:ss:FFF")};";
+
 			foreach (var property in properties)
 			{
-				result.Add($"\t{property.Name}: {property.GetValue(stat)}");
+				temp += $"{property.GetValue(stat)};";
 			}
+
+			result.Add(temp);
+
+			return result;
+		}
+
+		private static List<string> GetPropertyNames()
+		{
+			PropertyInfo[] properties = null;
+			IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+			List<string> result = new List<string>();
+			result.Add($"{DateTime.Now.ToString("d/M/yyyy-hh:mm:ss:FFF")};");
+
+			properties = typeof(TcpStatistics).GetProperties();
+			string temp = "TCP;";
+			foreach (var property in properties)
+			{
+				temp += $"{property.Name};";
+			}
+			result.Add(temp);
+
+			properties = typeof(IPGlobalStatistics).GetProperties();
+			temp = "IP;";
+			foreach (var property in properties)
+			{
+				temp += $"{property.Name};";
+			}
+			result.Add(temp);
+
+			properties = typeof(IcmpV4Statistics).GetProperties();
+			temp = "ICMP;";
+			foreach (var property in properties)
+			{
+				temp += $"{property.Name};";
+			}
+			result.Add(temp);
+
+			properties = typeof(UdpStatistics).GetProperties();
+			temp = "UDP;";
+			foreach (var property in properties)
+			{
+				temp += $"{property.Name};";
+			}
+			result.Add(temp);
+
+			properties = typeof(IPInterfaceStatistics).GetProperties();
+			temp = "IPInterface;";
+			foreach (var property in properties)
+			{
+				temp += $"{property.Name};";
+			}
+			result.Add(temp);
 
 			return result;
 		}
