@@ -29,6 +29,7 @@ namespace Net_Traffic_Stats
 			{
 				Properties.Settings.Default.SelectedAdapterID = selectedRow.Cells["AdapterID"].Value.ToString();
 				Properties.Settings.Default.Save();
+				Close();
 			}
 		}
 
